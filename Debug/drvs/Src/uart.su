@@ -1,0 +1,7 @@
+../drvs/Src/uart.c:18:13:UART_MspInit	64	static
+../drvs/Src/uart.c:73:5:UART_Init	24	static
+../drvs/Src/uart.c:98:5:init	24	static
+../drvs/Src/uart.c:119:8:read	16	static
+../drvs/Src/uart.c:129:9:readbyte	16	static
+../drvs/Src/uart.c:141:8:write	16	static
+../drvs/Src/uart.c:151:5:writebyte	16	static
