@@ -45,7 +45,8 @@ UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN PV */
-
+int write_byte ;
+uint8_t receivedData;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,17 +97,18 @@ int main(void)
   uartConfig.stopBits = UART_STOPBITS_1;
   uartConfig.parity = UART_PARITY_NONE;
 
-  if (init(&uart1.huart, uartConfig) != 0) {
+  if (init(&uart2.huart, uartConfig) != 0) {
 	  Error_Handler();
       // Xử lý lỗi
   }
 
   //read
-  //  uint8_t buffer[30];
-  //  size_t len = 30;
+//    uint8_t buffer[30];
+//    size_t len = 30;
 
   //readbyte
-  uint8_t receivedData;
+
+
 
   //write
   //  uint8_t buffer[] = "Hello, UART!";
@@ -173,7 +175,7 @@ int main(void)
 
  	  //RX_TX
  	  receivedData = readbyte();
-  	  int write_byte = writebyte(receivedData);
+  	  write_byte = writebyte(receivedData);
   	  switch (write_byte) {
   	  	  case 0:
   	  	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);

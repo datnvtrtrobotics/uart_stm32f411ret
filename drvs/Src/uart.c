@@ -127,15 +127,15 @@ size_t read(uint8_t *buff, size_t len) {
     return 0;  // No data received
 }
 uint8_t readbyte() {
-    uint8_t data;
-    if (HAL_UART_Receive(&uart1.huart, &data, 1, HAL_MAX_DELAY) == HAL_OK) {
+    uint8_t data = 0x30;
+//    if (HAL_UART_Receive(&uart1.huart, &data, 1, 100) == HAL_OK) {
+//        return data;
+    if (HAL_UART_Receive(&uart2.huart, &data, 1, 100) == HAL_OK) {
         return data;
-    } else if (HAL_UART_Receive(&uart2.huart, &data, 1, HAL_MAX_DELAY) == HAL_OK) {
-        return data;
-    } else if (HAL_UART_Receive(&uart6.huart, &data, 1, HAL_MAX_DELAY) == HAL_OK) {
-        return data;
+//    } else if (HAL_UART_Receive(&uart6.huart, &data, 1, HAL_MAX_DELAY) == HAL_OK) {
+//        return data;
     }
-    return 0xFF;  // No data received
+    return data;  // No data received
 }
 
 size_t write(uint8_t *buff, size_t len) {
