@@ -10,7 +10,8 @@
 #define __UART_H
 
 #include "stm32f4xx_hal.h"
-
+#include <stdio.h>
+#include <string.h>
 typedef struct {
     uint32_t baudRate;
     uint32_t wordLength;

@@ -1,4 +1,5 @@
-Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
+app/src/uart_f411.o: ../app/src/uart_f411.c \
+ /home/tdat/STM32CubeIDE/workspace_1.15.1/uart_stm32f411ret/drvs/Inc/uart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -25,9 +26,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- /home/tdat/STM32CubeIDE/workspace_1.15.1/uart_stm32f411ret/drvs/Inc/uart.h \
  /home/tdat/STM32CubeIDE/workspace_1.15.1/uart_stm32f411ret/app/inc/uart_f411.h
-../Core/Inc/main.h:
+/home/tdat/STM32CubeIDE/workspace_1.15.1/uart_stm32f411ret/drvs/Inc/uart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -54,5 +54,4 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-/home/tdat/STM32CubeIDE/workspace_1.15.1/uart_stm32f411ret/drvs/Inc/uart.h:
 /home/tdat/STM32CubeIDE/workspace_1.15.1/uart_stm32f411ret/app/inc/uart_f411.h:

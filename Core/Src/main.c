@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "uart.h"
+#include "uart_f411.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+uint8_t data;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -40,13 +41,9 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart1;
-UART_HandleTypeDef huart2;
-UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN PV */
-int write_byte ;
-uint8_t receivedData;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -91,32 +88,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-  UART_Config uartConfig;
-  uartConfig.baudRate = 115200;
-  uartConfig.wordLength = UART_WORDLENGTH_8B;
-  uartConfig.stopBits = UART_STOPBITS_1;
-  uartConfig.parity = UART_PARITY_NONE;
-
-  if (init(&uart2.huart, uartConfig) != 0) {
-	  Error_Handler();
-      // Xử lý lỗi
-  }
-
-  //read
-//    uint8_t buffer[30];
-//    size_t len = 30;
-
-  //readbyte
-
-
-
-  //write
-  //  uint8_t buffer[] = "Hello, UART!";
-  //  size_t bufferSize = sizeof(buffer) - 1;
-
-
-  //writebyte
-  //  char dataToSend = 'A';
+  HAL_Init();
+  SystemClock_Config();
+  MX_GPIO_Init();
+  Config_uart();
+  HAL_UART_Receive_IT(&uart2.huart, &data, 1);
 
 
 
@@ -130,65 +106,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  // Read data from UART
-//	size_t read_data = read(buffer, len);
-//	if (read_data > 0) {
-//		for (size_t i = 0; i < read_data; i++) {
-//			HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-//	        HAL_Delay(100); // Small delay to visualize the toggling
-//	        }
-//	}
+	  //handle_uart();
 
-	  // Read byte from UART
-//	receivedData = readbyte();
-//	if (receivedData != 0xFF) {
-//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//	} else {
-//		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-//	}
-
-
-	   // Write data with UART
-//	  size_t bytesWritten = write(buffer, bufferSize);
-//	  if (bytesWritten > 0) {
-//		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//	  } else {
-//	      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-//	 }
-
-
-  	  //Writebyte with UART
-//	  int write_byte = writebyte(dataToSend);
-//	  switch (write_byte) {
-//	  case 0:
-//	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//		  break;
-//	  case 1:
-//	      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-//	      break;
-//	  case -1:
-//	      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-//	      break;
-//	  default:
-//	      break;
-//	  }
-
- 	  //RX_TX
- 	  receivedData = readbyte();
-  	  write_byte = writebyte(receivedData);
-  	  switch (write_byte) {
-  	  	  case 0:
-  	  	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-  	  		  break;
-  	  	  case 1:
-  	  	      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  	  	      break;
-  	  	  case -1:
-  	  	      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-  	  	      break;
-  	  	  default:
-  	  	      break;
-  	  	  }
 
   }
   /* USER CODE END 3 */
@@ -239,7 +158,6 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
 /**
   * @brief GPIO Initialization Function
   * @param None
@@ -278,7 +196,38 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+  /* NOTE: This function should not be modified, when the callback is needed,
+           the HAL_UART_RxCpltCallback could be implemented in the user file
+   */
+  if (huart->Instance == USART2) {
 
+	  CircularBuffer_Write(&rxBuffer, data);
+	  CheckAndPrintReceivedData();
+
+	          // Bắt đầu nhận dữ liệu mới
+	  HAL_UART_Receive_IT(&uart2.huart, &data, 1);
+
+
+
+//	  if (data == '\r' || data == '\n') {
+//		  rx_buffer[buffer_index] = '\0'; // Kết thúc chuỗi
+//	      char msg[BUFFER_SIZE + 10];
+//	      snprintf(msg, sizeof(msg), "Received: %s\n\r", rx_buffer);
+//	      HAL_UART_Transmit(&uart2.huart, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+//	      buffer_index = 0; // Reset index sau khi in chuỗi
+//	  } else {
+//		  if (buffer_index < BUFFER_SIZE - 1) {
+//			  rx_buffer[buffer_index++] = data; // Lưu trữ ký tự vào bộ đệm
+//	      }
+//	  }
+//	  HAL_UART_Receive_IT(&uart2.huart, &data, 1);
+  }
+
+}
 /* USER CODE END 4 */
 
 /**

@@ -1,0 +1,5 @@
+../app/uart_f411.c:19:6:Config_uart	2
+../app/uart_f411.c:47:6:handle_uart	2
+../app/uart_f411.c:60:13:MX_GPIO_Init	1
+../app/uart_f411.c:91:6:Error_Handler	1
+../app/uart_f411.c:106:6:SystemClock_Config	3
