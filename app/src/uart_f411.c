@@ -11,6 +11,9 @@ UART_HandleTypeDef huart6;
 //  huart6 = uart6.huart;
 int write_byte ;
 uint8_t receivedData;
+uint8_t data  = 0;
+//#define BUFFER_SIZE 128
+//char rx_buffer[BUFFER_SIZE];
 uint16_t buffer_index = 0;
 
 void Config_uart(){
@@ -44,20 +47,23 @@ int CircularBuffer_Read(CircularBuffer *cb, uint8_t *data) {
     return 1; // Success
 }
 void CheckAndPrintReceivedData() {
+    uint8_t byte;
     static uint8_t tempBuffer[BUFFER_SIZE];
     static uint16_t index = 0;
-    uint8_t byte;
 
     while(CircularBuffer_Read(&rxBuffer, &byte)) {
-    	if (byte == '\n' || byte == '\r') {
-    		tempBuffer[index] = '\0';
-    		char msg[BUFFER_SIZE + 20];
-    		snprintf(msg, sizeof(msg), "Received: %s\n\r", tempBuffer);
-    		HAL_UART_Transmit(&uart2.huart, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-    	    index = 0;
-    	} else if (index < BUFFER_SIZE - 1) {
-    	    tempBuffer[index++] = byte;
-    	}
+//	        if (byte == '\n' || byte == '\r') {
+//	            tempBuffer[index] = '\0';
+//	            char msg[BUFFER_SIZE + 20];
+//	            snprintf(msg, sizeof(msg), "Received: %s\n\r", tempBuffer);
+//	            HAL_UART_Transmit(&uart2.huart, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+//	            index = 0;
+//	        } else {
+//	            if (index < BUFFER_SIZE - 1) {
+            	HAL_UART_Transmit(&uart2.huart, &byte, 1, HAL_MAX_DELAY);
+//	                tempBuffer[index++] = byte;
+//	            }
+//	        }
     }
 }
 

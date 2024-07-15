@@ -10,6 +10,7 @@
 #define UART_F411_H
 
 #include "stm32f4xx_hal.h"
+extern uint8_t data;
 
 #define BUFFER_SIZE 100
 typedef struct {

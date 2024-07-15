@@ -32,7 +32,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-uint8_t data;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -72,21 +71,18 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   HAL_Init();
   SystemClock_Config();
@@ -105,7 +101,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
+	  CheckAndPrintReceivedData();
 	  //handle_uart();
 
 
@@ -205,12 +201,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
    */
   if (huart->Instance == USART2) {
 
-	  CircularBuffer_Write(&rxBuffer, data);
-	  CheckAndPrintReceivedData();
-
-	          // Bắt đầu nhận dữ liệu mới
 	  HAL_UART_Receive_IT(&uart2.huart, &data, 1);
-
+	  CircularBuffer_Write(&rxBuffer, data);
 
 
 //	  if (data == '\r' || data == '\n') {
